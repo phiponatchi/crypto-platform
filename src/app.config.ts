@@ -8,7 +8,7 @@ const config = {
   appDescription:
     'A powerful Next.js boilerplate equipped with everything you need to launch your product quickly. Go from concept to live production in just 5 minutes!',
   // REQUIRED: (no https://, not trialing slash at the end, just the naked domain)
-  domainName: "ilaunch.app",
+  domainName: "demo.ilaunch.app",
   // REQUIRED: improve your SEO by adding keywords in your app
   keywords: ["iLaunchApp", "NextJS starter", "NextJS boilerplate", "NextJS template", "NextJS", "ReactJS", "TailwindCSS", "TypeScript", "JavaScript", "Shadcn UI"],
   crisp: {
