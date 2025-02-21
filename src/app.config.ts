@@ -4,6 +4,8 @@ import { AppConfigProps } from "./types/app.config";
 const config = {
   // REQUIRED
   appName: "iLaunchApp",
+  // REQUIRED: an icon for your app (can be overwritten)
+  appIcon: "/logo.png",
   // REQUIRED: a short description of your app for SEO tags (can be overwritten)
   appDescription:
     'A powerful Next.js boilerplate equipped with everything you need to launch your product quickly. Go from concept to live production in just 5 minutes!',
@@ -105,9 +107,9 @@ const config = {
   },
   auth: {
     // REQUIRED — the path to log in users. It's use to protect private routes (like /dashboard). It's used in apiClient (/libs/api.js) upon 401 errors from our API
-    signInUrl: "/signin",
+    signInUrl: "/auth/signin",
     // REQUIRED — the path you want to redirect users after successfull login (i.e. /dashboard, /private). This is normally a private page for users to manage their accounts. It's used in apiClient (/libs/api.js) upon 401 errors from our API & in ButtonSignIn.js
-    callbackUrl: "/home",
+    callbackUrl: "/dashboard",
   },
 } as AppConfigProps;
 

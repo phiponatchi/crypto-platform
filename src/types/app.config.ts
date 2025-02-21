@@ -29,13 +29,21 @@ export interface ResendConfig {
     forwardRepliesTo?: string;
 }
 
+export interface AuthProvider {
+    name: string;
+    url: string;
+    icon: string;
+}
+
 export interface AuthConfig {
     signInUrl: string;
     callbackUrl: string;
+    providers?: AuthProvider[];
 }
 
 export interface AppConfigProps {
   appName: string;
+  appIcon: string;
   appDescription: string;
   domainName: string;
   keywords: string[];
