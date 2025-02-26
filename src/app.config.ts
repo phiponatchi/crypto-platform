@@ -3,16 +3,16 @@ import { AppConfigProps } from "./types/app.config";
 
 const config = {
   // REQUIRED
-  appName: "iLaunchApp",
+  appName: "Crypto",
   // REQUIRED: an icon for your app (can be overwritten)
   appIcon: "/logo.png",
   // REQUIRED: a short description of your app for SEO tags (can be overwritten)
   appDescription:
     'A powerful Next.js boilerplate equipped with everything you need to launch your product quickly. Go from concept to live production in just 5 minutes!',
   // REQUIRED: (no https://, not trialing slash at the end, just the naked domain)
-  domainName: "demo.ilaunch.app",
+  domainName: "",
   // REQUIRED: improve your SEO by adding keywords in your app
-  keywords: ["iLaunchApp", "NextJS starter", "NextJS boilerplate", "NextJS template", "NextJS", "ReactJS", "TailwindCSS", "TypeScript", "JavaScript", "Shadcn UI"],
+  keywords: ["Crypto", "NextJS starter", "NextJS boilerplate", "NextJS template", "NextJS", "ReactJS", "TailwindCSS", "TypeScript", "JavaScript", "Shadcn UI"],
   crisp: {
     // Crisp website ID. IF YOU DON'T USE CRISP: just remove this => Then add a support email in this config file (mailgun.supportEmail) otherwise customer support won't work.
     id: "",
