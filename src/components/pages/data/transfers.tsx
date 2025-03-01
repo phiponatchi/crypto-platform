@@ -11,23 +11,26 @@ import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { EditableCell } from "@/components/ui/editable-cell"
-import { Acquisition } from "@/types/models"
+import { Transfer } from "@/db/schema"
 
 
-export const isAcquistionComplete = (row: Acquisition): boolean => {
-  return row.date !== undefined && row.cryptoactif.trim() !== "" && row.montantInvesti > 0 && row.quantiteAchetee > 0
+export const isTransferComplete = (row: Transfer): boolean => {
+  return row.date !== undefined && row.date !== "" && row.cryptoactif.trim() !== "" && row.quantiteVendu > 0 && row.prixCession > 0 && row.frais > 0;
 }
 
-export const emptyAcquisition: Acquisition = {
+export const emptyTransfer = {
   date: undefined,
   cryptoactif: "",
-  montantInvesti: 0,
-  coursAchat: 0,
-  quantiteAchetee: 0,
+  quantiteVendu: 0,
+  pma: 0,
+  prixCession: 0,
+  frais: 0,
+  pmvLatente: 0,
+  prixAcquisition: 0,
 }
 
 
-export const acquisitionColumns: ColumnDef<Acquisition>[] = [
+export const transferColumns: ColumnDef<Transfer>[] = [
   {
     accessorKey: "date",
     header: "Date",
@@ -40,6 +43,7 @@ export const acquisitionColumns: ColumnDef<Acquisition>[] = [
         <Popover>
           <PopoverTrigger asChild>
             <Button
+              className="w-32"
               variant={"outline"}
             >
               <CalendarIcon className="mr-2 h-4 w-4" />
@@ -81,26 +85,21 @@ export const acquisitionColumns: ColumnDef<Acquisition>[] = [
     },
   },
   {
-    accessorKey: "montantInvesti",
-    header: "Montant investi",
+    accessorKey: "quantiteVendu",
+    header: "Quantité Vendu",
     cell: ({ row, table }) => {
-      const value = row.getValue("montantInvesti") as number
+      const value = row.getValue("quantiteVendu") as number
       // @ts-ignore
       const { updateData } = table.options
 
       return (
-        <EditableCell value={value} row={row.index} column="montantInvesti" updateData={updateData} className="w-36">
+        <EditableCell value={value} row={row.index} column="quantiteVendu" updateData={updateData} className="w-36">
           <Input
             type="number"
             value={value}
             onChange={(e) => {
               const newValue = Number.parseFloat(e.target.value)
-              updateData(row.index, "montantInvesti", newValue)
-              // Update cours d'achat
-              const quantite = row.getValue("quantiteAchetee") as number
-              if (quantite > 0) {
-                updateData(row.index, "coursAchat", newValue / quantite)
-              }
+              updateData(row.index, "quantiteVendu", newValue)
             }}
             className="h-8 w-36"
             placeholder="0.00"
@@ -113,46 +112,96 @@ export const acquisitionColumns: ColumnDef<Acquisition>[] = [
     },
   },
   {
-    accessorKey: "coursAchat",
-    header: "Cours d'achat",
+    accessorKey: "pma",
+    header: "Prix moyen d'achat",
     cell: ({ row }) => {
-      const value = row.getValue("coursAchat") as number
+      const value = row.getValue("pma") as number
       return (
-        <div className="flex h-8 w-28 items-center px-2 text-muted-foreground overflow-ellipsis">
-          {value ? value : "_"}
+        <div className="h-8 flex items-center px-2 text-muted-foreground w-36 overflow-hidden">
+          {value
+            ? value.toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+            : "_"}
         </div>
       )
     },
   },
   {
-    accessorKey: "quantiteAchetee",
-    header: "Quantité achetée",
+    accessorKey: "prixCession",
+    header: "Prix de cession",
     cell: ({ row, table }) => {
-      const value = row.getValue("quantiteAchetee") as number
+      const value = row.getValue("prixCession") as number
       // @ts-ignore
       const { updateData } = table.options
 
       return (
-        <EditableCell value={value} row={row.index} column="quantiteAchetee" updateData={updateData} className="w-48">
+        <EditableCell value={value} row={row.index} column="prixCession" updateData={updateData} className="w-32">
           <Input
             type="number"
             value={value}
             onChange={(e) => {
               const newValue = Number.parseFloat(e.target.value)
-              updateData(row.index, "quantiteAchetee", newValue)
-              // Update cours d'achat
-              const montant = row.getValue("montantInvesti") as number
-              if (newValue > 0) {
-                updateData(row.index, "coursAchat", montant / newValue)
-              }
+              updateData(row.index, "prixCession", newValue)
             }}
-            className="h-8 w-48"
+            className="h-8 w-32"
             placeholder="0.00"
             step="0.01"
             min="0"
             autoFocus
           />
         </EditableCell>
+      )
+    },
+  },
+  {
+    accessorKey: "frais",
+    header: "Frais",
+    cell: ({ row, table }) => {
+      const value = row.getValue("frais") as number
+      // @ts-ignore
+      const { updateData } = table.options
+
+      return (
+        <EditableCell value={value} row={row.index} column="frais" updateData={updateData} className="w-32">
+          <Input
+            type="number"
+            value={value}
+            onChange={(e) => {
+              const newValue = Number.parseFloat(e.target.value)
+              updateData(row.index, "frais", newValue)
+            }}
+            className="h-8 w-32"
+            placeholder="0.00"
+            step="0.01"
+            min="0"
+            autoFocus
+          />
+        </EditableCell>
+      )
+    },
+  },
+  {
+    accessorKey: "pmvLatente",
+    header: "PMV Latente",
+    cell: ({ row }) => {
+      const value = row.getValue("pmvLatente") as number
+      return (
+        <div className="h-8 flex items-center px-2 text-muted-foreground w-36 overflow-hidden">
+          {value
+            ? value.toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+            : "_"}
+        </div>
+      )
+    },
+  },
+  {
+    accessorKey: "prixAcquisition",
+    header: "Prix d'acquisition",
+    cell: ({ row }) => {
+      const value = row.getValue("prixAcquisition") as number
+      return (
+        <div className="h-8 flex items-center px-2 text-muted-foreground w-36 overflow-hidden">
+          {value ? value : "_"}
+        </div>
       )
     },
   },

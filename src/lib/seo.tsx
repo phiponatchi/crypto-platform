@@ -3,8 +3,8 @@ import type { Metadata } from "next";
 import config from "@/app.config";
 
 const author = {
-  name: "Leo Phiponachi",
-  twitterCreator: "@Leo_Phiponacci",
+  name: "Leo Phiponatchi",
+  twitterCreator: "@Leo_Phiponatchi",
 };
 
 // These are all the SEO tags you can add to your pages.

@@ -43,7 +43,7 @@ const data = {
       items: [
         {
           title: "Acquisitions/Entrées",
-          url: "/dashboard/data#inputs",
+          url: "/dashboard/data#acquisitions",
           icon: DatabaseIcon,
           isActive: true,
         },

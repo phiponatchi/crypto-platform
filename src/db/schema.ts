@@ -65,5 +65,9 @@ export type Session = SelectSession;
 export type InsertAcquisition = typeof acquisitions.$inferInsert;
 export type SelectAcquisition = typeof acquisitions.$inferSelect;
 
+export type Acquisition = SelectAcquisition;
+
 export type InsertTransfer = typeof transfers.$inferInsert;
 export type SelectTransfer = typeof transfers.$inferSelect;
+
+export type Transfer = SelectTransfer;

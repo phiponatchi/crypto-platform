@@ -1,8 +1,8 @@
 import { db } from "@/db";
-import { acquisitions, InsertAcquisition, SelectAcquisition, SelectUser } from "@/db/schema";
+import { Acquisition, acquisitions, InsertAcquisition, SelectAcquisition, SelectUser } from "@/db/schema";
 import { and, eq, getTableColumns, sql } from "drizzle-orm";
 
-export const getAllAquisitions = async (userId: SelectUser["id"]) => {
+export const getAllAquisitions = async (userId: SelectUser["id"]): Promise<Acquisition[]> => {
     return await db
         .select({
             ...getTableColumns(acquisitions),

@@ -5,6 +5,9 @@ import { actionClient } from "@/lib/safe-action";
 import { cookies } from "next/headers";
 import { SESSION_KEY, validateSessionToken } from "@/lib/auth";
 import { updateUser } from "./users";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+import config from "@/app.config";
 
 
 const schema = z.object({
@@ -34,10 +37,12 @@ export const updateProfile = actionClient
                 user.email = email;
                 try {
                     await updateUser(user);
+                    revalidatePath("/dashboard/profile");
                     return { success: true, message: "Your profile has been updated successfully." };
                 } catch (e) {
                     return { success: false, message: "Username already exists" };
                 }
             }
+            return redirect(config.auth.signInUrl);
         }
     });
