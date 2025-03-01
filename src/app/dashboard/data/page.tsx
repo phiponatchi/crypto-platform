@@ -18,13 +18,13 @@ export default async function DataPage() {
 
   const saveAcquisition = async (row: Acquisition) => {
     "use server";
-    await createAcquisition(row, user.id);
-    revalidatePath("/dashboard/data");
+    const [acquisition] = await createAcquisition(row, user.id);
+    return acquisition.id;
   }
   const saveTransfer = async (row: Transfer) => {
     "use server";
-    await createTransfer(row, user.id);
-    revalidatePath("/dashboard/data");
+    const [transfer] = await createTransfer(row, user.id);
+    return transfer.id;
   }
 
   return (

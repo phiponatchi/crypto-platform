@@ -47,7 +47,6 @@ export function DataTable({ columns, initialData, isRowComplete, saveRow, emptyR
         ...data[rowIndex],
         [columnId]: value,
       };
-      console.log(newRow);
       setIndex(() => isRowComplete(newRow) ? rowIndex : -1);
       setData((old) => old.map((row, index) => index === rowIndex ? newRow : row))
     },
@@ -78,7 +77,10 @@ export function DataTable({ columns, initialData, isRowComplete, saveRow, emptyR
                 ))}
                 <TableCell className="flex flex-col items-center justify-center w-8">
                   {currentIndex === index && (
-                    <LoadingCheck saveFn={() => saveRow(data[currentIndex])} onAnimationCompleted={() => setIndex(-1)} />
+                    <LoadingCheck saveFn={async () => {
+                      const id = await saveRow(data[currentIndex]);
+                      setData((old) => old.map((row, index) => index === currentIndex ? { ...row, id } : row));
+                    }} onAnimationCompleted={() => setIndex(-1)} />
                   )}
                 </TableCell>
               </TableRow>

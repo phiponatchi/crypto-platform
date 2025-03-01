@@ -29,6 +29,11 @@ export const createAcquisition = async (acquisition: InsertAcquisition, userId: 
     return await db
         .insert(acquisitions)
         .values(acquisition)
+        .returning()
+        .onConflictDoUpdate({
+            target: acquisitions.id,
+            set: acquisition,
+        })
         .execute();
 };
 

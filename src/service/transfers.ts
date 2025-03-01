@@ -23,6 +23,11 @@ export const createTransfer = async (transfer: InsertTransfer, userId: SelectUse
     return await db
         .insert(transfers)
         .values(transfer)
+        .returning()
+        .onConflictDoUpdate({
+            target: transfers.id,
+            set: transfer,
+        })
         .execute();
 };
 
